@@ -1,10 +1,8 @@
 import React, { useContext } from 'react';
 import { AppBar, Toolbar, Typography, Button, Box } from '@mui/material';
-import { AuthContext } from '../context/AuthContext';
 import { Link } from 'react-router-dom';
 
 const Header = () => {
-    const { user, logout } = useContext(AuthContext);
 
     return (
         <AppBar
@@ -30,36 +28,6 @@ const Header = () => {
                 >
                     <Link to="/">World Explorer</Link>
                 </Typography>
-                {user ? (
-                    <Button
-                        color="inherit"
-                        onClick={logout}
-                        sx={{
-                            fontWeight: 600,
-                            '&:hover': {
-                                color: '#00A8CC',
-                                backgroundColor: 'rgba(255, 255, 255, 0.1)'
-                            }
-                        }}
-                    >
-                        Logout
-                    </Button>
-                ) : (
-                    <Button
-                        color="inherit"
-                        component={Link}
-                        to="/login"
-                        sx={{
-                            fontWeight: 600,
-                            '&:hover': {
-                                color: '#00A8CC',
-                                backgroundColor: 'rgba(255, 255, 255, 0.1)'
-                            }
-                        }}
-                    >
-                        Login
-                    </Button>
-                )}
             </Toolbar>
         </AppBar>
     );
