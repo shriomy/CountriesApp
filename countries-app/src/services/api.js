@@ -41,3 +41,34 @@ export const getCountryByCode = async (code) => {
         return null;
     }
 };
+
+// Add to your api.js
+export const getCountriesByLanguage = async (language) => {
+    try {
+        const response = await axios.get(`${API_BASE_URL}/lang/${language}`);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching countries by language:', error);
+        return [];
+    }
+};
+
+export const getCountriesByCurrency = async (currency) => {
+    try {
+        const response = await axios.get(`${API_BASE_URL}/currency/${currency}`);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching countries by currency:', error);
+        return [];
+    }
+};
+
+export const getCountriesBySubregion = async (subregion) => {
+    try {
+        const response = await axios.get(`${API_BASE_URL}/subregion/${subregion}`);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching countries by subregion:', error);
+        return [];
+    }
+};
