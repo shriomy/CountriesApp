@@ -12,14 +12,24 @@ const Filter = ({ onFilter }) => {
     };
 
     return (
-        <Box sx={{ minWidth: 120, marginBottom: 4 }}>
+        <Box sx={{ minWidth: 200 }}>
             <FormControl fullWidth>
-                <InputLabel id="region-filter-label">Filter by Region</InputLabel>
+                <InputLabel id="region-filter-label" sx={{ color: '#2B3945' }}>Filter by Region</InputLabel>
                 <Select
                     labelId="region-filter-label"
                     value={selectedRegion}
                     label="Filter by Region"
                     onChange={handleChange}
+                    sx={{
+                        backgroundColor: 'white',
+                        borderRadius: 2,
+                        '& .MuiOutlinedInput-notchedOutline': {
+                            borderColor: '#2B3945',
+                        },
+                        '&:hover .MuiOutlinedInput-notchedOutline': {
+                            borderColor: '#00A8CC',
+                        },
+                    }}
                 >
                     <MenuItem value="">All Regions</MenuItem>
                     {regions.map((region) => (

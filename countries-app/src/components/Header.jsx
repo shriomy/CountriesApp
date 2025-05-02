@@ -1,5 +1,5 @@
-import React, {useContext} from 'react';
-import { AppBar, Toolbar, Typography, Button } from '@mui/material';
+import React, { useContext } from 'react';
+import { AppBar, Toolbar, Typography, Button, Box } from '@mui/material';
 import { AuthContext } from '../context/AuthContext';
 import { Link } from 'react-router-dom';
 
@@ -7,19 +7,56 @@ const Header = () => {
     const { user, logout } = useContext(AuthContext);
 
     return (
-        <AppBar position="static">
-            <Toolbar>
-                <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                    <Link to="/" style={{ color: 'inherit', textDecoration: 'none' }}>
-                        Countries App
-                    </Link>
+        <AppBar
+            position="static"
+            sx={{
+                bgcolor: 'primary.main'
+            }}
+        >
+            <Toolbar sx={{ justifyContent: 'space-between' }}>
+                <Typography
+                    variant="h5"
+                    component="div"
+                    sx={{
+                        fontWeight: 800,
+                        '& a': {
+                            color: 'inherit',
+                            textDecoration: 'none',
+                            '&:hover': {
+                                color: '#00A8CC'
+                            }
+                        }
+                    }}
+                >
+                    <Link to="/">World Explorer</Link>
                 </Typography>
                 {user ? (
-                    <Button color="inherit" onClick={logout}>
+                    <Button
+                        color="inherit"
+                        onClick={logout}
+                        sx={{
+                            fontWeight: 600,
+                            '&:hover': {
+                                color: '#00A8CC',
+                                backgroundColor: 'rgba(255, 255, 255, 0.1)'
+                            }
+                        }}
+                    >
                         Logout
                     </Button>
                 ) : (
-                    <Button color="inherit" component={Link} to="/login">
+                    <Button
+                        color="inherit"
+                        component={Link}
+                        to="/login"
+                        sx={{
+                            fontWeight: 600,
+                            '&:hover': {
+                                color: '#00A8CC',
+                                backgroundColor: 'rgba(255, 255, 255, 0.1)'
+                            }
+                        }}
+                    >
                         Login
                     </Button>
                 )}
