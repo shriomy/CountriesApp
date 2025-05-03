@@ -128,25 +128,79 @@ const Home = () => {
         );
     }
 
-    return (
-        <Container maxWidth="xl" sx={{ py: 4 }}>
-            {/* Hero Section */}
+    const HeroSection = () => {
+        return (
             <Box sx={{
                 textAlign: 'center',
                 mb: 6,
-                background: 'linear-gradient(135deg, #2B3945 0%, #00A8CC 100%)',
-                color: 'white',
-                p: 4,
+                position: 'relative',
+                overflow: 'hidden',
                 borderRadius: 3,
-                boxShadow: '0 10px 30px rgba(0, 0, 0, 0.2)'
+                boxShadow: '0 10px 30px rgba(0, 0, 0, 0.2)',
             }}>
-                <Typography variant="h2" sx={{ fontWeight: 800, mb: 2 }}>
-                    Explore the World
-                </Typography>
-                <Typography variant="h6" sx={{ maxWidth: 800, mx: 'auto' }}>
-                    Discover detailed information about every country in the world
-                </Typography>
+                {/* Background Pattern */}
+                <Box sx={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    opacity: 0.1,
+                    backgroundImage: 'url("https://images.unsplash.com/photo-1589519160732-57fc498494f8?ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80")',
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    zIndex: 1
+                }} />
+
+                {/* Gradient Overlay */}
+                <Box sx={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    background: 'linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)',
+                    zIndex: 2
+                }} />
+
+                {/* Content */}
+                <Box sx={{
+                    position: 'relative',
+                    color: 'white',
+                    p: 6,
+                    zIndex: 3
+                }}>
+                    <Typography variant="h2" sx={{ fontWeight: 800, mb: 2 }}>
+                        Explore the World
+                    </Typography>
+                    <Typography variant="h6" sx={{ maxWidth: 800, mx: 'auto', mb: 4 }}>
+                        Discover detailed information about every country and territory on our planet
+                    </Typography>
+                    <Box sx={{ mt: 3, display: 'flex', justifyContent: 'center', gap: 2 }}>
+                        <Button
+                            variant="contained"
+                            sx={{
+                                bgcolor: 'white',
+                                color: '#1e3c72',
+                                fontWeight: 600,
+                                px: 4,
+                                '&:hover': {
+                                    bgcolor: 'rgba(255,255,255,0.9)'
+                                }
+                            }}
+                        >
+                            Start Exploring
+                        </Button>
+                    </Box>
+                </Box>
             </Box>
+        );
+    };
+
+    return (
+        <Container maxWidth="xl" sx={{ py: 4 }}>
+            {/* Hero Section */}
+            <HeroSection />
 
             {/* Search and Filter Section */}
             <Box sx={{

@@ -162,13 +162,20 @@ const CountryDetails = () => {
                     mb: 4,
                     color: '#2B3945',
                     borderColor: '#2B3945',
+                    borderRadius: 8,
+                    fontWeight: 600,
+                    px: 3,
+                    py: 1,
+                    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
                     '&:hover': {
-                        backgroundColor: '#f0f0f0',
-                        borderColor: '#2B3945'
+                        backgroundColor: '#2B3945',
+                        borderColor: '#2B3945',
+                        color: 'white',
+                        boxShadow: '0 6px 16px rgba(0, 0, 0, 0.15)'
                     }
                 }}
             >
-                Back
+                Back to Countries
             </Button>
 
             <Grid container spacing={6}>
@@ -178,9 +185,19 @@ const CountryDetails = () => {
                         position: 'relative',
                         borderRadius: 3,
                         overflow: 'hidden',
-                        boxShadow: '0 8px 24px rgba(0, 0, 0, 0.15)',
+                        boxShadow: '0 12px 30px rgba(0, 0, 0, 0.15)',
                         height: '100%',
-                        minHeight: 400
+                        minHeight: 400,
+                        '&::after': {
+                            content: '""',
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            boxShadow: 'inset 0 -100px 100px -100px rgba(0,0,0,0.3)',
+                            pointerEvents: 'none'
+                        }
                     }}>
                         <img
                             src={country.flags?.png || ''}
@@ -201,10 +218,14 @@ const CountryDetails = () => {
                                 backgroundColor: 'white',
                                 borderRadius: '50%',
                                 p: 1,
-                                boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)',
+                                boxShadow: '0 8px 16px rgba(0, 0, 0, 0.2)',
                                 display: 'flex',
                                 alignItems: 'center',
-                                justifyContent: 'center'
+                                justifyContent: 'center',
+                                transition: 'transform 0.3s ease',
+                                '&:hover': {
+                                    transform: 'scale(1.1)'
+                                }
                             }}>
                                 <img
                                     src={country.coatOfArms.png}
