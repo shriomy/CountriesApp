@@ -1,6 +1,23 @@
 import React, { useState } from 'react';
-import { TextField, Box, InputAdornment } from '@mui/material';
+import {TextField, Box, InputAdornment, IconButton} from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
+import ClearIcon from '@mui/icons-material/Clear';
+import { styled } from '@mui/material/styles';
+
+const SearchTextField = styled(TextField)(({ theme }) => ({
+    '& .MuiOutlinedInput-root': {
+        borderRadius: 12,
+        backgroundColor: 'white',
+        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.05)',
+        transition: 'all 0.3s ease',
+        '&:hover': {
+            boxShadow: '0 6px 16px rgba(0, 0, 0, 0.08)',
+        },
+        '&.Mui-focused': {
+            boxShadow: '0 6px 16px rgba(0, 0, 0, 0.08)',
+        }
+    }
+}));
 
 const Search = ({ onSearch }) => {
     const [searchTerm, setSearchTerm] = useState('');
@@ -8,6 +25,11 @@ const Search = ({ onSearch }) => {
     const handleChange = (e) => {
         setSearchTerm(e.target.value);
         onSearch(e.target.value);
+    };
+
+    const handleClear = () => {
+        setSearchTerm('');
+        onSearch('');
     };
 
     return (
@@ -24,16 +46,13 @@ const Search = ({ onSearch }) => {
                             <SearchIcon sx={{ color: '#2B3945' }} />
                         </InputAdornment>
                     ),
-                    sx: {
-                        backgroundColor: 'white',
-                        borderRadius: 2,
-                        '& .MuiOutlinedInput-notchedOutline': {
-                            borderColor: '#2B3945',
-                        },
-                        '&:hover .MuiOutlinedInput-notchedOutline': {
-                            borderColor: '#00A8CC',
-                        },
-                    }
+                    endAdornment: searchTerm && (
+                        <InputAdornment position="end">
+                            <IconButton size="small" onClick={handleClear}>
+                                <ClearIcon fontSize="small" />
+                            </IconButton>
+                        </InputAdornment>
+                    )
                 }}
             />
         </Box>
