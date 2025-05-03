@@ -74,6 +74,11 @@ const Search = ({ onSearch, value, countries = [] }) => {  // Added default valu
                 )}
                 renderOption={(props, option) => (
                     <li {...props} key={option.cca3}>
+                        <img
+                            src={option.flags.png}
+                            alt=""
+                            style={{ width: 20, marginRight: 10 }}
+                        />
                         {option.name.common}
                     </li>
                 )}
