@@ -188,6 +188,21 @@ const Home = () => {
                                     bgcolor: 'rgba(255,255,255,0.9)'
                                 }
                             }}
+                            onClick={() => {
+                                // Clear all filters
+                                handleClearFilters();
+
+                                // Scroll to search section
+                                const element = document.getElementById('search-section');
+                                if (element) {
+                                    const offset = 150;
+                                    const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
+                                    window.scrollTo({
+                                        top: elementPosition - offset,
+                                        behavior: 'smooth'
+                                    });
+                                }
+                            }}
                         >
                             Start Exploring
                         </Button>
@@ -203,7 +218,9 @@ const Home = () => {
             <HeroSection />
 
             {/* Search and Filter Section */}
-            <Box sx={{
+            <Box
+                id="search-section"
+                sx={{
                 display: 'flex',
                 justifyContent: 'space-between',
                 flexWrap: 'wrap',
@@ -212,7 +229,7 @@ const Home = () => {
                 alignItems: 'center'
             }}>
                 {/* You can keep the standalone Search component if you want */}
-                <Search onSearch={handleSearchChange} value={filters.searchTerm} />
+                <Search onSearch={handleSearchChange} value={filters.searchTerm}  countries={allCountries} />
                 <Filter
                     countries={allCountries}
                     onFilterChange={handleFilterChange}
