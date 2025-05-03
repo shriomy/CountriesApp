@@ -311,6 +311,22 @@ const Filter = ({
                     Filters
                 </Button>
 
+                <Button
+                    variant="outlined"
+                    startIcon={<ClearAllIcon />}
+                    onClick={clearAllFilters}
+                    sx={{
+                        borderColor: '#2B3945',
+                        color: '#2B3945',
+                        '&:hover': {
+                            borderColor: '#00A8CC',
+                            backgroundColor: 'rgba(0, 168, 204, 0.08)'
+                        }
+                    }}
+                >
+                    Clear All
+                </Button>
+
                 {/* Active Filters Chips */}
                 <Box sx={{
                     display: 'flex',
