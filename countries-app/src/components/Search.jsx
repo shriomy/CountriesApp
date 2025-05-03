@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {TextField, Box, InputAdornment, IconButton} from '@mui/material';
+import {TextField, Box, InputAdornment, IconButton, Autocomplete} from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import ClearIcon from '@mui/icons-material/Clear';
 import { styled } from '@mui/material/styles';
@@ -19,12 +19,13 @@ const SearchTextField = styled(TextField)(({ theme }) => ({
     }
 }));
 
-const Search = ({ onSearch }) => {
-    const [searchTerm, setSearchTerm] = useState('');
+const Search = ({ onSearch, value, countries = [] }) => {  // Added default value for countries
+    const [searchTerm, setSearchTerm] = useState(value || '');
 
-    const handleChange = (e) => {
-        setSearchTerm(e.target.value);
-        onSearch(e.target.value);
+    const handleChange = (event, newValue) => {
+        const selectedValue = newValue ? newValue.name.common : '';
+        setSearchTerm(selectedValue);
+        onSearch(selectedValue);
     };
 
     const handleClear = () => {
@@ -34,26 +35,48 @@ const Search = ({ onSearch }) => {
 
     return (
         <Box sx={{ width: '100%', maxWidth: 500 }}>
-            <TextField
-                fullWidth
-                label="Search for a country..."
-                variant="outlined"
-                value={searchTerm}
+            <Autocomplete
+                freeSolo
+                options={countries || []}
+                getOptionLabel={(option) => option.name.common}
+                value={countries?.find(c => c.name.common === searchTerm) || null}
                 onChange={handleChange}
-                InputProps={{
-                    startAdornment: (
-                        <InputAdornment position="start">
-                            <SearchIcon sx={{ color: '#2B3945' }} />
-                        </InputAdornment>
-                    ),
-                    endAdornment: searchTerm && (
-                        <InputAdornment position="end">
-                            <IconButton size="small" onClick={handleClear}>
-                                <ClearIcon fontSize="small" />
-                            </IconButton>
-                        </InputAdornment>
-                    )
+                onInputChange={(event, newInputValue) => {
+                    setSearchTerm(newInputValue);
+                    onSearch(newInputValue);
                 }}
+                renderInput={(params) => (
+                    <SearchTextField
+                        {...params}
+                        label="Search for a country..."
+                        variant="outlined"
+                        InputProps={{
+                            ...params.InputProps,
+                            startAdornment: (
+                                <InputAdornment position="start">
+                                    <SearchIcon sx={{ color: '#2B3945' }} />
+                                </InputAdornment>
+                            ),
+                            endAdornment: (
+                                <>
+                                    {searchTerm && (
+                                        <InputAdornment position="end">
+                                            <IconButton size="small" onClick={handleClear}>
+                                                <ClearIcon fontSize="small" />
+                                            </IconButton>
+                                        </InputAdornment>
+                                    )}
+                                    {params.InputProps.endAdornment}
+                                </>
+                            )
+                        }}
+                    />
+                )}
+                renderOption={(props, option) => (
+                    <li {...props} key={option.cca3}>
+                        {option.name.common}
+                    </li>
+                )}
             />
         </Box>
     );
