@@ -23,6 +23,11 @@ import ClearAllIcon from '@mui/icons-material/ClearAll';
 import SearchIcon from '@mui/icons-material/Search';
 import { FilterContext } from '../context/FilterContext';
 
+// Filter Component
+//
+// This component provides UI elements for filtering countries based on various
+// criteria such as region, subregion, language, currency, population, and UN membership.
+
 const Filter = ({
                     countries,
                     onFilterChange,
@@ -30,13 +35,14 @@ const Filter = ({
                     searchTerm,
                     onSearchChange
                 }) => {
+// Local state for UI control
     const [anchorEl, setAnchorEl] = useState(null);
     const [mobileOpen, setMobileOpen] = useState(false);
     const { filters, setFilters } = useContext(FilterContext);
 
-    const isMobile = useMediaQuery('(max-width:600px)');
+    const isMobile = useMediaQuery('(max-width:600px)'); // Responsive check
 
-    // Extract filter options
+    // Extract unique filter options from the countries array
     const regions = [...new Set(countries.map(c => c.region))].filter(Boolean).sort();
     const subregions = [...new Set(countries.map(c => c.subregion))].filter(Boolean).sort();
 
@@ -52,7 +58,13 @@ const Filter = ({
         )
     )].filter(Boolean).sort();
 
-    // Apply filters whenever they change
+    /**
+     * useEffect Hook: Apply Filters
+     *
+     * This effect runs whenever the filters or countries change.  It applies
+     * the selected filters to the country list and calls the onFilterChange
+     * callback to update the displayed country list.
+     */
     useEffect(() => {
         const filteredCountries = countries.filter(country => {
             const matchesSearch = !filters.searchTerm ||
@@ -74,16 +86,20 @@ const Filter = ({
         onFilterChange(filteredCountries);
     }, [filters, countries, onFilterChange]);
 
+
+    // Updates a single filter value in the FilterContext.
     const handleFilterChange = (name, value) => {
         const newFilters = { ...filters, [name]: value };
         setFilters(newFilters);
     };
 
+    // Clears a single filter by setting its value to null or an empty string.
     const clearFilter = (name) => {
         const newFilters = { ...filters, [name]: name.startsWith('population') ? '' : null };
         setFilters(newFilters);
     };
 
+    // Clears all active filters and resets the search term.
     const clearAllFilters = () => {
         const newFilters = {
             region: null,
@@ -99,6 +115,7 @@ const Filter = ({
         onClear();
     };
 
+    //Generates a user-friendly label for each active filter.
     const getFilterLabel = (key, value) => {
         const labels = {
             region: `Region: ${value}`,
@@ -113,6 +130,7 @@ const Filter = ({
         return labels[key] || '';
     };
 
+    //Renders the filter controls (search, selects, buttons) within a Box. This is used both in the Menu (desktop) and Drawer (mobile).
     const renderFilterContent = () => (
         <Box sx={{ width: '100%' }}>
             <Typography variant="h6" sx={{ mb: 2 }}>

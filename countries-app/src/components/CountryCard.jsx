@@ -3,6 +3,16 @@ import { Card, CardContent, CardMedia, Typography, Button, Box } from '@mui/mate
 import { Link } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 
+/**
+ * CountryCard Component
+ *
+ * Displays a card-like representation of a country with its flag, name,
+ * population, region, and capital. Includes a button to navigate to the
+ * country's details page.
+ *
+ * @param {object} country - An object containing country data.
+ */
+
 const StyledCard = styled(Card)(({ theme }) => ({
     maxWidth: 320,
     margin: 2,
