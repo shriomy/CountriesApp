@@ -1,0 +1,28 @@
+API Usage
+
+Endpoints used:
+
+/all - Get all countries
+/name/{name} - Search by country name
+/alpha/{code} - Get country by alpha code
+/region/{region} - Get countries by region
+/subregion/{subregion} - Get countries by subregion
+/lang/{language} - Get countries by language
+/currency/{currency} - Get countries by currency
+
+Deployment
+This app is deployed on Vercel: https://countries-app-wheat-three.vercel.app
+
+
+Technologies Used
+React
+React Router
+Material-UI
+Axios
+REST Countries API
+React Context API
+
+Challenges faced
+1.  Implementing the multi-layered filtering system (region, language, population range, etc.) that needed to work together seamlessly was quite hard. I built a comprehensive filtering system for this that works perfectly which is coded in the filter.jsx
+2. Hardships in managing shared state across components (filters, search term, country data) without prop drilling. React Context API advanced features helped me to resolve this issue and it was used to consume my components
+3. Cross device compatibility - I implemented virtualization with react-window and mobile drawer. I used both desktop and mobile filter contents
