@@ -381,6 +381,14 @@ const Filter = ({
                         }
                     }
                 }}
+                onWheel={(e) => {
+                    e.stopPropagation();
+                    document.body.style.overflow = 'auto';
+                }}
+                onClose={() => {
+                    document.body.style.overflow = 'auto';
+                    setAnchorEl(null);
+                }}
             >
                 <Box sx={{
                     display: 'flex',
@@ -423,6 +431,14 @@ const Filter = ({
                             paddingRight: '9px !important'
                         }
                     }
+                }}
+                onWheel={(e) => {
+                    e.stopPropagation();
+                    document.body.style.overflow = 'auto';
+                }}
+                onClose={() => {
+                    document.body.style.overflow = 'auto';
+                    setAnchorEl(null);
                 }}
             >
                 {renderFilterContent()}

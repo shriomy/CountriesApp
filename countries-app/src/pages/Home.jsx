@@ -195,7 +195,7 @@ const Home = () => {
                                 // Scroll to search section
                                 const element = document.getElementById('search-section');
                                 if (element) {
-                                    const offset = 150;
+                                    const offset = 100;
                                     const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
                                     window.scrollTo({
                                         top: elementPosition - offset,
