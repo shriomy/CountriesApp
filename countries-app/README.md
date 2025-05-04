@@ -1,3 +1,29 @@
+Application Setup
+1. Cloned the classroom repository
+2. Navigated to the project folder
+3. hit npm install to start the react app
+
+
+The Build Process
+1. Created the components such as header, CountryCard etc that are needed for the App
+3. Created the home page and Country Card page
+4. Fetched APIs from services folder to the created pages
+5. used material-UI css framework to design a visually apealling UI
+6. Sessions are managed by session storage with a timeout of 30 Mins
+7. Unite and Integrations tests were developed
+
+Usage Instructions
+1. Hit npm run build to bundle
+2. then start the frontend with npm start
+3. Open the browser and hit localhost:3000 to see the app running
+4. Hosting was done with vercel
+5. The app is hosted at https://countries-app-wheat-three.vercel.app
+
+by IT22000576 | Fernandopulle S N
+
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
