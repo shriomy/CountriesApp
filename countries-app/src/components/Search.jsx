@@ -19,14 +19,20 @@ const SearchTextField = styled(TextField)(({ theme }) => ({
     }
 }));
 
-const Search = ({ onSearch, value, countries = [] }) => {  // Added default value for countries
+// Search component that includes Autocomplete functionality
+// Props: onSearch (callback), value (initial search term), countries (autocomplete options)
+const Search = ({ onSearch, value, countries = [] }) => {
+    // Added default value for countries
+    // Local state to track current search term
     const [searchTerm, setSearchTerm] = useState(value || '');
 
+    // Handler when an autocomplete option is selected
     const handleChange = (event, newValue) => {
         const selectedValue = newValue ? newValue.name.common : '';
         setSearchTerm(selectedValue);
         onSearch(selectedValue);
     };
+
 
     const handleClear = () => {
         setSearchTerm('');
@@ -46,6 +52,7 @@ const Search = ({ onSearch, value, countries = [] }) => {  // Added default valu
                     onSearch(newInputValue);
                 }}
                 renderInput={(params) => (
+                    // Render customized search text field inside autocomplete
                     <SearchTextField
                         {...params}
                         label="Search for a country..."
@@ -59,6 +66,7 @@ const Search = ({ onSearch, value, countries = [] }) => {  // Added default valu
                             ),
                             endAdornment: (
                                 <>
+                                    {/* Clear button appears only when there's text */}
                                     {searchTerm && (
                                         <InputAdornment position="end">
                                             <IconButton size="small" onClick={handleClear}>
@@ -74,6 +82,7 @@ const Search = ({ onSearch, value, countries = [] }) => {  // Added default valu
                 )}
                 renderOption={(props, option) => (
                     <li {...props} key={option.cca3}>
+                        // Render each autocomplete option with flag and country name
                         <img
                             src={option.flags.png}
                             alt=""

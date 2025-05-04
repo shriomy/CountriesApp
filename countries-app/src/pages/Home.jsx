@@ -6,14 +6,16 @@ import Filter from '../components/Filter';
 import { getAllCountries } from '../services/api';
 import { FilterContext } from '../context/FilterContext';
 
+// Fetching filter state from context and initializing states for countries and loading status
 const Home = () => {
     const { filters, setFilters } = useContext(FilterContext);
-    const [allCountries, setAllCountries] = useState([]);
-    const [displayedCountries, setDisplayedCountries] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const [allCountries, setAllCountries] = useState([]); // Fetching filter state from context and initializing states for countries and loading status
+    const [displayedCountries, setDisplayedCountries] = useState([]); // Fetching filter state from context and initializing states for countries and loading status
+    const [loading, setLoading] = useState(true); // Fetching filter state from context and initializing states for countries and loading status
+    const [error, setError] = useState(null); // To store any errors encountered during the fetch
     // const [searchTerm, setSearchTerm] = useState('');
 
+    // useEffect hook to fetch countries when the component mounts
     useEffect(() => {
         const fetchCountries = async () => {
             try {
@@ -31,6 +33,7 @@ const Home = () => {
         fetchCountries();
     }, []);
 
+    // Function to apply filters to the list of countries
     const applyFilters = (countries, filterState) => {
         const filtered = countries.filter(country => {
             return (
@@ -50,16 +53,19 @@ const Home = () => {
         setDisplayedCountries(filtered);
     };
 
+    // Handler for changes in the search term
     const handleSearchChange = (searchTerm) => {
         const newFilters = { ...filters, searchTerm };
         setFilters(newFilters);
         applyFilters(allCountries, newFilters);
     };
 
+    // Handler for changes in the filter component
     const handleFilterChange = (filtered) => {
         setDisplayedCountries(filtered);
     };
 
+    // Handler to clear all filters
     const handleClearFilters = () => {
         const newFilters = {
             region: null,
@@ -75,7 +81,7 @@ const Home = () => {
         applyFilters(allCountries, newFilters);
     };
 
-
+    // Retry fetching data if an error occurs
     const handleRetry = () => {
         setError(null);
         setLoading(true);
@@ -127,7 +133,7 @@ const Home = () => {
             </Box>
         );
     }
-
+// Hero section to display an introduction or background content
     const HeroSection = () => {
         return (
             <Box sx={{

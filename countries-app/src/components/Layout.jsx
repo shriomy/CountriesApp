@@ -11,18 +11,23 @@ const FooterBox = styled(Box)(({ theme }) => ({
     textAlign: 'center'
 }));
 
+// Layout component to wrap pages with Header, Footer, and main content area
 const Layout = ({ children }) => {
     return (
+        // Main container with flex column layout to handle header, content and footer
         <Box sx={{
             minHeight: '100vh',
             backgroundColor: '#F5F7FA',
             display: 'flex',
             flexDirection: 'column'
         }}>
+            {/* Header section */}
             <Header />
+            {/* Main content area */}
             <Box component="main" sx={{ py: 4, px: { xs: 2, sm: 4, md: 6 }, flexGrow: 1  }}>
                 {children}
             </Box>
+            {/* Footer section */}
             <FooterBox component="footer">
                 <Container>
                     <Typography variant="h6" sx={{ fontWeight: 600, mb: 2 }}>

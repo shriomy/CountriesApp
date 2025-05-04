@@ -5,7 +5,7 @@ export const FilterContext = createContext();
 export const FilterProvider = ({ children }) => {
     const [filters, setFilters] = useState(() => {
         // Initialize from localStorage if available
-        const savedFilters = localStorage.getItem('countryFilters');
+        const savedFilters = sessionStorage.getItem('countryFilters');
         return savedFilters
             ? JSON.parse(savedFilters)
             : {
@@ -22,7 +22,7 @@ export const FilterProvider = ({ children }) => {
 
     useEffect(() => {
         // Save to localStorage whenever filters change
-        localStorage.setItem('countryFilters', JSON.stringify(filters));
+        sessionStorage.setItem('countryFilters', JSON.stringify(filters));
     }, [filters]);
 
     return (

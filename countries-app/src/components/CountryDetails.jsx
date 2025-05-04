@@ -17,6 +17,7 @@ import {
     DriveEta as CarIcon } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
 
+// Custom styled component for detail rows (icon + text)
 const DetailItem = styled(Box)(({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
@@ -25,29 +26,34 @@ const DetailItem = styled(Box)(({ theme }) => ({
 }));
 
 const CountryDetails = () => {
+    // Custom styled component for detail rows (icon + text)
     const { countryCode } = useParams();
+    // React state hooks
     const [country, setCountry] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [neighbors, setNeighbors] = useState([]);
     const [neighborsLoading, setNeighborsLoading] = useState(false);
 
+    // Fetch country data on component mount OR when countryCode changes
     useEffect(() => {
         const fetchCountry = async () => {
             try {
                 setLoading(true);
+                // Fetch selected country details
                 const data = await getCountryByCode(countryCode);
                 const countryData = data?.[0] || null;
                 setCountry(countryData);
                 setError(data ? null : 'Country not found');
 
-                // Fetch neighboring countries if they exist
+                // If country has neighbors, fetch them too
                 if (countryData?.borders?.length > 0) {
                     setNeighborsLoading(true);
                     const neighborPromises = countryData.borders.map(code =>
                         getCountryByCode(code)
                     );
                     const neighborData = await Promise.all(neighborPromises);
+                    // Filter out any invalid (undefined/null) results
                     setNeighbors(neighborData.map(arr => arr[0]).filter(Boolean));
                 }
             } catch (err) {
@@ -62,15 +68,18 @@ const CountryDetails = () => {
         fetchCountry();
     }, [countryCode]);
 
+    // Utility: Render object values
     const renderObjectValues = (obj) => {
         if (!obj) return 'N/A';
         return Object.values(obj).map(val => val?.name || val).join(', ');
     };
 
+    // Utility: Format large numbers with commas
     const formatNumber = (num) => {
         return num ? num.toLocaleString() : 'N/A';
     };
 
+    // If loading, show skeleton loaders
     if (loading) {
         return (
             <Box sx={{ p: 4 }}>
@@ -90,6 +99,7 @@ const CountryDetails = () => {
         );
     }
 
+    // If there’s an error, show error message and back button
     if (error) {
         return (
             <Box sx={{
@@ -117,6 +127,7 @@ const CountryDetails = () => {
         );
     }
 
+    // If there’s an error, show error message and back button
     if (!country) {
         return (
             <Box sx={{
