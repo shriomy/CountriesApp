@@ -1,6 +1,5 @@
-
-import './styles/global.css';
 import React from 'react';
+import './styles/global.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import CountryPage from './pages/CountryPage';

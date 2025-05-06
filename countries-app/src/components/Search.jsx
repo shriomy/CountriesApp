@@ -81,16 +81,30 @@ const Search = ({ onSearch, value, countries = [] }) => {
                     />
                 )}
                 renderOption={(props, option) => (
-                    <li {...props} key={option.cca3}>
-                        // Render each autocomplete option with flag and country name
+                    <Box
+                        component="li"
+                        {...props}
+                        key={option.cca3}
+                        sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
+                    >
                         <img
                             src={option.flags.png}
                             alt=""
-                            style={{ width: 20, marginRight: 10 }}
+                            style={{
+                                width: 20,
+                                height: 'auto',
+                                objectFit: 'cover',
+                                borderRadius: 1
+                            }}
                         />
-                        {option.name.common}
-                    </li>
+                        <span>{option.name.common}</span>
+                    </Box>
                 )}
+                sx={{
+                    '& .MuiAutocomplete-popper': {
+                        zIndex: 1300 // Ensure dropdown appears above other elements
+                    }
+                }}
             />
         </Box>
     );
