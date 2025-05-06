@@ -156,9 +156,10 @@ const Filter = ({
             <Divider sx={{ my: 2 }} />
 
             {/* Region Filter */}
-            <FormControl fullWidth size="small" sx={{ mb: 2 }}>
+            <FormControl fullWidth size="small" sx={{ mb: 2 }} data-testid="region-form-control">
                 <InputLabel>Region</InputLabel>
                 <Select
+                    data-testid="region-select"
                     value={filters.region || ''}
                     label="Region"
                     onChange={(e) => handleFilterChange('region', e.target.value || null)}
@@ -175,18 +176,14 @@ const Filter = ({
                 <FormControl fullWidth size="small" sx={{ mb: 2 }}>
                     <InputLabel>Subregion</InputLabel>
                     <Select
-                        value={filters.subregion || ''}
-                        label="Subregion"
-                        onChange={(e) => handleFilterChange('subregion', e.target.value || null)}
+                        value={filters.region || ''}
+                        label="Region"
+                        onChange={(e) => handleFilterChange('region', e.target.value || null)}
                     >
-                        <MenuItem value="">All Subregions</MenuItem>
-                        {subregions
-                            .filter(subregion =>
-                                countries.some(c => c.region === filters.region && c.subregion === subregion)
-                            )
-                            .map(subregion => (
-                                <MenuItem key={subregion} value={subregion}>{subregion}</MenuItem>
-                            ))}
+                        <MenuItem value="">All Regions</MenuItem>
+                        {regions.map(region => (
+                            <MenuItem key={region} value={region}>{region}</MenuItem>
+                        ))}
                     </Select>
                 </FormControl>
             )}

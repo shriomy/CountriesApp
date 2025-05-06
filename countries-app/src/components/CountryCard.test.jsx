@@ -49,4 +49,17 @@ describe('CountryCard Component', () => {
         const link = screen.getByRole('link', { name: /learn more/i });
         expect(link).toHaveAttribute('href', '/country/TST');
     });
+
+    it('has the correct card styling', () => {
+        const { container } = renderWithProviders(<CountryCard country={mockCountry} />);
+        const card = container.querySelector('.MuiCard-root');
+
+        // Check basic styles
+        expect(card).toHaveStyle('border-radius: 12px');
+        expect(card).toHaveStyle('overflow: hidden');
+
+        // For hover styles, we'll check the class names
+        // This assumes you're using MUI's styled components
+        expect(card).toHaveClass('MuiPaper-root');
+    });
 });
