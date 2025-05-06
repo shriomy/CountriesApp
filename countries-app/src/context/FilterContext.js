@@ -11,6 +11,7 @@ export const FilterProvider = ({ children }) => {
             ? JSON.parse(savedFilters)
             : {
                 region: null,
+                subregion: null,
                 language: null,
                 currency: null,
                 populationMin: '',

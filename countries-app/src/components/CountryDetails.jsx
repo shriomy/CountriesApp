@@ -82,17 +82,17 @@ const CountryDetails = () => {
     // If loading, show skeleton loaders
     if (loading) {
         return (
-            <Box sx={{ p: 4 }}>
-                <Skeleton variant="rectangular" width={200} height={40} sx={{ mb: 3 }} />
+            <Box sx={{ p: 4 }} data-testid="loading-container">
+                <Skeleton variant="rectangular"  width={200} height={40} sx={{ mb: 3 }} data-testid="skeleton-loader"/>
                 <Grid container spacing={4}>
                     <Grid item xs={12} md={6}>
-                        <Skeleton variant="rectangular" height={400} />
+                        <Skeleton variant="rectangular" height={400} data-testid="skeleton-loader"/>
                     </Grid>
                     <Grid item xs={12} md={6}>
-                        <Skeleton variant="text" height={60} width="80%" />
-                        <Skeleton variant="text" height={40} width="60%" />
-                        <Skeleton variant="text" height={40} width="70%" />
-                        <Skeleton variant="text" height={40} width="50%" />
+                        <Skeleton variant="text" height={60} width="80%" data-testid="skeleton-loader"/>
+                        <Skeleton variant="text" height={40} width="60%" data-testid="skeleton-loader"/>
+                        <Skeleton variant="text" height={40} width="70%" data-testid="skeleton-loader"/>
+                        <Skeleton variant="text" height={40} width="50%" data-testid="skeleton-loader"/>
                     </Grid>
                 </Grid>
             </Box>
@@ -216,7 +216,8 @@ const CountryDetails = () => {
                             style={{
                                 width: '100%',
                                 height: '100%',
-                                objectFit: 'cover'
+                                objectFit: 'contain',
+                                backgroundColor: '#f5f5f5'
                             }}
                         />
                         {country.coatOfArms?.png && (
@@ -367,7 +368,7 @@ const CountryDetails = () => {
                     </Box>
 
                     {/* Location Map */}
-                    {country.latlng && (
+                    {country.latlng && country.latlng.length === 2 && (
                         <Box sx={{ mb: 4 }}>
                             <Typography variant="h6" gutterBottom sx={{
                                 fontWeight: 600,
@@ -379,21 +380,48 @@ const CountryDetails = () => {
                                 <MapIcon /> Location
                             </Typography>
                             <Box sx={{
-                                height: 200,
+                                height: 300,
                                 borderRadius: 2,
                                 overflow: 'hidden',
-                                position: 'relative'
+                                position: 'relative',
+                                border: '1px solid #e0e0e0'
                             }}>
                                 <iframe
                                     title={`Map of ${country.name.common}`}
                                     width="100%"
                                     height="100%"
-                                    style={{ border: 0 }}
-                                    loading="lazy"
-                                    allowFullScreen
-                                    referrerPolicy="no-referrer-when-downgrade"
-                                    src={`https://www.google.com/maps/embed/v1/view?key=YOUR_API_KEY&center=${country.latlng[0]},${country.latlng[1]}&zoom=5`}
+                                    frameBorder="0"
+                                    scrolling="no"
+                                    marginHeight="0"
+                                    marginWidth="0"
+                                    src={`https://www.openstreetmap.org/export/embed.html?bbox=${
+                                        country.latlng[1] - 2 // West (longitude - 2)
+                                    },${
+                                        country.latlng[0] - 2 // South (latitude - 2)
+                                    },${
+                                        country.latlng[1] + 2 // East (longitude + 2)
+                                    },${
+                                        country.latlng[0] + 2 // North (latitude + 2)
+                                    }&layer=mapnik&marker=${country.latlng[0]}%2C${country.latlng[1]}`}
                                 ></iframe>
+                                <Box sx={{
+                                    position: 'absolute',
+                                    bottom: 8,
+                                    right: 8,
+                                    backgroundColor: 'white',
+                                    padding: '4px 8px',
+                                    borderRadius: 1,
+                                    fontSize: '12px'
+                                }}>
+                                    <a
+                                        href={`https://www.openstreetmap.org/?mlat=${country.latlng[0]}&mlon=${country.latlng[1]}#map=6/${country.latlng[0]}/${country.latlng[1]}`}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        style={{ color: '#2B3945', textDecoration: 'none' }}
+                                    >
+                                        View Larger Map
+                                    </a>
+                                </Box>
                             </Box>
                         </Box>
                     )}

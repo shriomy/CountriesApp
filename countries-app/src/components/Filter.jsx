@@ -33,7 +33,8 @@ const Filter = ({
                     onFilterChange,
                     onClear,
                     searchTerm,
-                    onSearchChange
+                    onSearchChange,
+                    onApply
                 }) => {
 // Local state for UI control
     const [anchorEl, setAnchorEl] = useState(null);
@@ -58,38 +59,14 @@ const Filter = ({
         )
     )].filter(Boolean).sort();
 
-    /**
-     * useEffect Hook: Apply Filters
-     *
-     * This effect runs whenever the filters or countries change.  It applies
-     * the selected filters to the country list and calls the onFilterChange
-     * callback to update the displayed country list.
-     */
-    useEffect(() => {
-        const filteredCountries = countries.filter(country => {
-            const matchesSearch = !filters.searchTerm ||
-                country.name.common.toLowerCase().includes(filters.searchTerm.toLowerCase());
-            return (
-                matchesSearch &&
-                (!filters.region || country.region === filters.region) &&
-                (!filters.subregion || country.subregion === filters.subregion) &&
-                (!filters.language || (country.languages &&
-                    Object.values(country.languages).includes(filters.language))) &&
-                (!filters.currency || (country.currencies &&
-                    Object.values(country.currencies).some(c => c.name === filters.currency))) &&
-                (!filters.populationMin || country.population >= Number(filters.populationMin)) &&
-                (!filters.populationMax || country.population <= Number(filters.populationMax)) &&
-                (filters.independent === null || country.independent === filters.independent) &&
-                (filters.unMember === null || country.unMember === filters.unMember)
-            );
-        });
-        onFilterChange(filteredCountries);
-    }, [filters, countries, onFilterChange]);
-
-
     // Updates a single filter value in the FilterContext.
     const handleFilterChange = (name, value) => {
-        const newFilters = { ...filters, [name]: value };
+        const newFilters = {
+            ...filters,
+            [name]: value,
+            // Clear subregion when region changes
+            ...(name === 'region' ? { subregion: null } : {})
+        };
         setFilters(newFilters);
     };
 
@@ -103,6 +80,7 @@ const Filter = ({
     const clearAllFilters = () => {
         const newFilters = {
             region: null,
+            subregion: null,
             language: null,
             currency: null,
             populationMin: '',
@@ -162,7 +140,8 @@ const Filter = ({
                     data-testid="region-select"
                     value={filters.region || ''}
                     label="Region"
-                    onChange={(e) => handleFilterChange('region', e.target.value || null)}
+                    onChange={(e) =>
+                        handleFilterChange('region', e.target.value || null) }
                 >
                     <MenuItem value="">All Regions</MenuItem>
                     {regions.map(region => (
@@ -176,14 +155,28 @@ const Filter = ({
                 <FormControl fullWidth size="small" sx={{ mb: 2 }}>
                     <InputLabel>Subregion</InputLabel>
                     <Select
-                        value={filters.region || ''}
-                        label="Region"
-                        onChange={(e) => handleFilterChange('region', e.target.value || null)}
+                        value={filters.subregion || ''}
+                        label="SubRegion"
+                        onChange={(e) => {
+                            const newFilters = {
+                                ...filters,
+                            subregion: e.target.value || null
+                        };
+                            setFilters(newFilters);
+                        }}
                     >
-                        <MenuItem value="">All Regions</MenuItem>
-                        {regions.map(region => (
-                            <MenuItem key={region} value={region}>{region}</MenuItem>
-                        ))}
+                        <MenuItem value="">All Subregions</MenuItem>
+                        {countries
+                            .filter(country => country.region === filters.region)
+                            .map(country => country.subregion)
+                            .filter((subregion, index, self) =>
+                                subregion && self.indexOf(subregion) === index
+                            )
+                            .sort()
+                            .map(subregion => (
+                                <MenuItem key={subregion} value={subregion}>{subregion}</MenuItem>
+                            ))
+                        }
                     </Select>
                 </FormControl>
             )}
@@ -280,6 +273,30 @@ const Filter = ({
 
             <Divider sx={{ my: 2 }} />
 
+            {/* Apply Button */}
+            <Button
+                fullWidth
+                variant="contained"
+                onClick={() => {
+                    // Close the filter UI
+                    if (isMobile) setMobileOpen(false);
+                    else setAnchorEl(null);
+
+                    // Trigger apply action
+                    if (onApply) onApply();
+                }}
+                sx={{
+                    mt: 1,
+                    mb: 2,
+                    backgroundColor: '#2B3945',
+                    '&:hover': {
+                        backgroundColor: '#1e2a33'
+                    }
+                }}
+            >
+                Apply Filters
+            </Button>
+
             {/* Clear All Button */}
             <Button
                 fullWidth
@@ -316,10 +333,10 @@ const Filter = ({
                     onClick={(e) => isMobile ? setMobileOpen(!mobileOpen) : setAnchorEl(e.currentTarget)}
                     sx={{
                         borderColor: '#2B3945',
-                        color: '#2B3945',
+                        color: '#101010',
                         '&:hover': {
                             borderColor: '#00A8CC',
-                            backgroundColor: 'rgba(0, 168, 204, 0.08)'
+                            backgroundColor: 'rgb(6,191,198)'
                         }
                     }}
                 >
