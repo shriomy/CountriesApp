@@ -60,7 +60,11 @@ const CountryCard = ({ country }) => {
             <CardImageWrapper>
                 <CardMedia
                     component="img"
-                    height="180"
+                    sx={{
+                        height: 180,
+                        width: '100%',
+                        objectFit: 'cover'
+                    }}
                     image={country.flags.png}
                     alt={`Flag of ${country.name.common}`}
                 />

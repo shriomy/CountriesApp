@@ -13,6 +13,7 @@ const Home = () => {
     const [displayedCountries, setDisplayedCountries] = useState([]); // Fetching filter state from context and initializing states for countries and loading status
     const [loading, setLoading] = useState(true); // Fetching filter state from context and initializing states for countries and loading status
     const [error, setError] = useState(null); // To store any errors encountered during the fetch
+    const [shouldApplyFilters, setShouldApplyFilters] = useState(false);
     // const [searchTerm, setSearchTerm] = useState('');
 
     // useEffect hook to fetch countries when the component mounts
@@ -33,11 +34,19 @@ const Home = () => {
         fetchCountries();
     }, []);
 
+    useEffect(() => {
+        applyFilters(allCountries, filters);
+    }, [filters, allCountries]);
+
     // Function to apply filters to the list of countries
     const applyFilters = (countries, filterState) => {
         const filtered = countries.filter(country => {
-            return (
+            console.log('Current filters:', filterState);
+            console.log('Checking country:', country.name.common);
+
+            const matches = (
                 (!filterState.region || country.region === filterState.region) &&
+                (!filterState.subregion || country.subregion === filterState.subregion) &&
                 (!filterState.language || (country.languages &&
                     Object.values(country.languages).includes(filterState.language))) &&
                 (!filterState.currency || (country.currencies &&
@@ -49,7 +58,10 @@ const Home = () => {
                 (!filterState.searchTerm || country.name.common.toLowerCase()
                     .includes(filterState.searchTerm.toLowerCase()))
             );
+            console.log('Matches filters?', matches);
+            return matches;
         });
+        console.log('Filtered countries:', filtered.length);
         setDisplayedCountries(filtered);
     };
 
@@ -69,6 +81,7 @@ const Home = () => {
     const handleClearFilters = () => {
         const newFilters = {
             region: null,
+            subregion: null,
             language: null,
             currency: null,
             populationMin: '',
@@ -78,7 +91,6 @@ const Home = () => {
             searchTerm: ''
         };
         setFilters(newFilters);
-        applyFilters(allCountries, newFilters);
     };
 
     // Retry fetching data if an error occurs
@@ -238,7 +250,6 @@ const Home = () => {
                 <Search onSearch={handleSearchChange} value={filters.searchTerm}  countries={allCountries} />
                 <Filter
                     countries={allCountries}
-                    onFilterChange={handleFilterChange}
                     onClear={handleClearFilters}
                     searchTerm={filters.searchTerm}
                     onSearchChange={handleSearchChange}
