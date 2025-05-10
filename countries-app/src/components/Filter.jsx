@@ -155,6 +155,7 @@ const Filter = ({
                 <FormControl fullWidth size="small" sx={{ mb: 2 }}>
                     <InputLabel>Subregion</InputLabel>
                     <Select
+                        data-testid="subregion-select"
                         value={filters.subregion || ''}
                         label="SubRegion"
                         onChange={(e) => {
