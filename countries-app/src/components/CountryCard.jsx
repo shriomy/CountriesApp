@@ -56,7 +56,7 @@ const LearnMoreButton = styled(Button)(({ theme }) => ({
 
 const CountryCard = ({ country }) => {
     return (
-        <StyledCard>
+        <StyledCard data-testid="country-card">
             <CardImageWrapper>
                 <CardMedia
                     component="img"
